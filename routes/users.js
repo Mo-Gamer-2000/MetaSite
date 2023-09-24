@@ -6,43 +6,51 @@ const User = require("../models/User");
 const router = express.Router();
 
 // User Registration
-router.post("/register", async (req, res) => {
-  const { username, email, password, firstName, lastName } = req.body;
+router.post("/register", async (req, res, next) => {
+  try {
+    const { username, email, password, firstName, lastName } = req.body;
 
-  // Check if user exists
-  let user = await User.findOne({ email });
-  if (user) {
-    return res.status(400).json({ msg: "User already exists" });
+    // Check if user exists
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ msg: "User already exists" });
+    }
+
+    // Create a new user
+    user = new User({
+      username,
+      email,
+      password: await bcrypt.hash(password, 8), // Hashing password
+      firstName,
+      lastName,
+    });
+
+    await user.save();
+    res.json({ msg: "User registered successfully" });
+  } catch (err) {
+    next(err); // Passes the error to the global error handler
   }
-
-  // Create a new user
-  user = new User({
-    username,
-    email,
-    password: bcrypt.hashSync(password, 8), // Hashing password
-    firstName,
-    lastName,
-  });
-
-  await user.save();
-  res.json({ msg: "User registered successfully" });
 });
 
 // User login
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+router.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-  // Check if user exists
-  const user = await User.findOne({ email });
-  if (!user || !bcrypt.compareSync(password, user.password)) {
-    return res.status(400).json({ msg: "Invalid credentials" });
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({ msg: "Invalid credentials" });
+    }
+
+    // Create JWT token
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    res.json({ token, user });
+  } catch (err) {
+    next(err); // Passes the error to the global error handler
   }
-
-  // Create JWT token
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
-  res.json({ token, user });
 });
 
 // Add other routes  as needed
