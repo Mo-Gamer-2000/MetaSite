@@ -114,5 +114,16 @@ router.put("/update/preferences/:id", async (req, res, next) => {
   }
 });
 
+// Dynamic Navigation Menu
+const MENU_ITEMS = ["Dashboard", "Profile", "Settings", "Logout"];
+
+// Fetch available menu items
+router.get("/menu-items", (req, res) => {
+  res.json(MENU_ITEMS);
+});
+
+// Toggle menu items based on user preferences - this would tie into the update preferences route.
+
+
 // Add other routes  as needed
 module.exports = router;
