@@ -4,6 +4,19 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const router = express.Router();
+const Joi = require("joi");
+
+const registrationValidation = (data) => {
+  const schema = Joi.object({
+    username: Joi.string().min(3).required(),
+    email: Joi.string().min(6).required().email(),
+    password: Joi.string().min(6).required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+  });
+
+  return schema.validate(data);
+};
 
 // User Registration
 router.post("/register", async (req, res, next) => {
@@ -15,6 +28,9 @@ router.post("/register", async (req, res, next) => {
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
     }
+
+    const { error } = registrationValidation(req.body);
+    if (error) return res.status(400).json({ msg: error.details[0].message });
 
     // Create a new user
     user = new User({
