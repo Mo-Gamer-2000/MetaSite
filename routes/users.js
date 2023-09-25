@@ -53,5 +53,27 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+// Update User Information
+router.put("/update/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { ID } = req.params;
+
+    let user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    user.ID = ID;
+
+    await user.save();
+
+    res.json({ msg: "User information updated successfully" });
+  } catch (err) {
+    next(err); //Passes the error to the global error handler
+  }
+});
+
 // Add other routes  as needed
 module.exports = router;
