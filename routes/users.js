@@ -5,14 +5,6 @@ const User = require("../models/User");
 
 const router = express.Router();
 const Joi = require("joi");
-const expressJwt = require("express-jwt");
-
-// JWT middleware for protected routes
-const isAuthenticated = expressJwt({
-  secret: process.env.JWT_SECRET, // The token will be verified against this secret key (should match the one in your .env file)
-  algorithms: ["HS256"],
-  userProperty: "auth",
-});
 
 const registrationValidation = (data) => {
   const schema = Joi.object({
@@ -83,7 +75,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 // Update User Information
-router.put("/update/:id", isAuthenticated, async (req, res, next) => {
+router.put("/update/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const { ID } = req.body;
@@ -114,6 +106,10 @@ router.put("/update/preferences/:id", async (req, res, next) => {
 
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
+    }
+
+    if (menuItems.some((item) => !MENU_ITEMS.includes(item))) {
+      return res.status(400).json({ msg: "Invalid menu items" });
     }
 
     user.preferences.colorScheme = colorScheme;
