@@ -2,24 +2,14 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const validateJWT = require("../middlewares/validateJWT");
+const validateUserRegistration = require("../middlewares/validateUserRegistration");
 
 const router = express.Router();
 const Joi = require("joi");
 
-const registrationValidation = (data) => {
-  const schema = Joi.object({
-    username: Joi.string().min(3).required(),
-    email: Joi.string().min(6).required().email(),
-    password: Joi.string().min(6).required(),
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-  });
-
-  return schema.validate(data);
-};
-
 // User Registration
-router.post("/register", async (req, res, next) => {
+router.post("/register", validateUserRegistration, async (req, res, next) => {
   try {
     const { username, email, password, firstName, lastName } = req.body;
 
@@ -28,9 +18,6 @@ router.post("/register", async (req, res, next) => {
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
     }
-
-    const { error } = registrationValidation(req.body);
-    if (error) return res.status(400).json({ msg: error.details[0].message });
 
     // Create a new user
     user = new User({
@@ -97,7 +84,7 @@ router.put("/update/:id", async (req, res, next) => {
 });
 
 // Update User Preferences
-router.put("/update/preferences/:id", async (req, res, next) => {
+router.put("/update/preferences/:id", validateJWT, async (req, res, next) => {
   try {
     const { id } = req.params;
     const { colorScheme, menuItems } = req.body;
@@ -127,7 +114,7 @@ router.put("/update/preferences/:id", async (req, res, next) => {
 const MENU_ITEMS = ["Dashboard", "Profile", "Settings", "Logout"];
 
 // Fetch available menu items
-router.get("/menu-items", (req, res) => {
+router.get("/menu-items", validateJWT, (req, res) => {
   res.json(MENU_ITEMS);
 });
 
