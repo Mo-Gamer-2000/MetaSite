@@ -51,10 +51,15 @@ router.post("/register", async (req, res, next) => {
 // User login
 router.post("/login", async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body; // Change email to identifier
+
+    // Check if identifier is an email or username
+    const condition = identifier.includes("@")
+      ? { email: identifier }
+      : { username: identifier };
 
     // Check if user exists
-    const user = await User.findOne({ email });
+    const user = await User.findOne(condition);
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
