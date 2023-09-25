@@ -72,8 +72,8 @@ router.post("/login", async (req, res, next) => {
 // Update User Information
 router.put("/update/:id", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const { ID } = req.params;
+    const { id } = req.body;
+    const { ID } = req.body;
 
     let user = await User.findById(id);
 
@@ -94,7 +94,7 @@ router.put("/update/:id", async (req, res, next) => {
 // Update User Preferences
 router.put("/update/preferences/:id", async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const { colorScheme, menuItems } = req.body;
 
     let user = await User.findById(id);
@@ -124,6 +124,5 @@ router.get("/menu-items", (req, res) => {
 
 // Toggle menu items based on user preferences - this would tie into the update preferences route.
 
-
-// Add other routes  as needed
+// Add other routes as needed
 module.exports = router;
