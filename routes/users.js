@@ -75,5 +75,28 @@ router.put("/update/:id", async (req, res, next) => {
   }
 });
 
+// Update User Preferences
+router.put("/update/preferences/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { colorScheme, menuItems } = req.body;
+
+    let user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    user.preferences.colorScheme = colorScheme;
+    user.preferences.menuItems = menuItems;
+
+    await user.save();
+
+    res.json({ msg: "User preferences updated successfully" });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Add other routes  as needed
 module.exports = router;
