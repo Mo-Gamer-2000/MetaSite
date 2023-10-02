@@ -22,6 +22,9 @@ const Footer = () => {
           <button className=" bg-black hover:bg-gray-900 duration-300 px-5 py-2.5 font-[Martian Mono] rounded-md text-white md:w-auto w-full">
             Enter
           </button>
+          <p className="text-black text-1xl pt-1 font-semibold">
+            Sign up for weekly updates⬆️
+          </p>
         </div>
       </div>
       <ItemContainer />
