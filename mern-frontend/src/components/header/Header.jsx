@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "./Button";
 import { useState } from "react";
 
@@ -41,7 +42,9 @@ const Navbar = () => {
               </a>
             </li>
           ))}
-          <Button>Login</Button>
+          <Link to="/login">
+            <Button>Login</Button>
+          </Link>
         </ul>
       </div>
     </div>

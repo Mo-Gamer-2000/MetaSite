@@ -1,18 +1,15 @@
-import React, { Children } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
+import LoginPage from "./components/login/LoginPage";
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
-          {/* Main home route. */}
           <Route index path="/" element={<HomePage />} />
-          <Route path="/login" element={Children} />
-          <Route path="/register" element={Children} />
-          <Route path="/profile" element={Children} />
-          <Route path="/" element={Children} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
     </Router>
