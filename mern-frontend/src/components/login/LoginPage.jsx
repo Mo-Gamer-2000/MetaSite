@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const { login } = useContext(AuthContext);
@@ -72,6 +73,14 @@ const LoginPage = () => {
         >
           Login
         </button>
+
+        {/* Registration link */}
+        <div className="mt-4 text-center">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-600 hover:underline">
+            Register here
+          </Link>
+        </div>
       </form>
     </div>
   );
