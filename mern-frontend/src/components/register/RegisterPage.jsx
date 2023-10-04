@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../../axiosInstance";
 
 const RegisterPage = () => {
+  const navigate = useNavigate(); // Initialize it here
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -11,6 +12,7 @@ const RegisterPage = () => {
     firstName: "",
     lastName: "",
   });
+  console.log(formData);
 
   const handleChange = (e) => {
     setFormData({
@@ -25,10 +27,17 @@ const RegisterPage = () => {
       console.error("Passwords do not match");
       return;
     }
+
+    const registerData = {
+      ...formData,
+    };
+    delete registerData.confirmPassword;
+
     try {
-      const { data } = await axios.post("/api/users/register", formData);
+      const { data } = await axios.post("/users/register", registerData);
       console.log(data.msg); // Registration success message
       // Redirect to login or any other action can be done here
+      navigate("/login");
     } catch (err) {
       console.error("Error registering:", err.response.data);
     }
