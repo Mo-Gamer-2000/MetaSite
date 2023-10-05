@@ -21,7 +21,7 @@ const LoginPage = () => {
     try {
       const { data } = await axios.post("/api/users/login", formData);
       login(data.user);
-      navigate("/dashboard");
+      navigate("/dashboard"); // Redirect User to Dashboard Page
     } catch (err) {
       console.error("Error logging in:", err.response.data);
     }
