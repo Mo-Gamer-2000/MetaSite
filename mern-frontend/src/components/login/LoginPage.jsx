@@ -2,8 +2,10 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({ identifier: "", password: "" });
 
@@ -19,6 +21,7 @@ const LoginPage = () => {
     try {
       const { data } = await axios.post("/api/users/login", formData);
       login(data.user);
+      navigate("/dashboard");
     } catch (err) {
       console.error("Error logging in:", err.response.data);
     }
