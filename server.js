@@ -22,6 +22,12 @@ app.use(limiter);
 // Routes
 app.use("/api/users", userRoutes);
 
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
+});
+
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -31,7 +37,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error(err));
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");

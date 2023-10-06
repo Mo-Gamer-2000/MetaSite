@@ -37,6 +37,7 @@ router.post("/register", validateUserRegistration, async (req, res, next) => {
 
 // User login
 router.post("/login", async (req, res, next) => {
+  console.log("Login Route Hit!");
   try {
     const { identifier, password } = req.body; // Change email to identifier
 

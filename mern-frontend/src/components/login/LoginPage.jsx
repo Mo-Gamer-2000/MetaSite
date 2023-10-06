@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../axiosInstance";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -19,11 +19,16 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/users/login", formData);
+      const { data } = await axiosInstance.post("/users/login", formData);
+
       login(data.user);
       navigate("/dashboard"); // Redirect User to Dashboard Page
     } catch (err) {
-      console.error("Error logging in:", err.response.data);
+      if (err.response) {
+        console.error("Error logging in:", err.response.data);
+      } else {
+        console.error("Error making request:", err.message);
+      }
     }
   };
 
