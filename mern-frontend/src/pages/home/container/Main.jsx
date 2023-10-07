@@ -14,7 +14,7 @@ const Main = () => {
           Platform. Speak to your Friends and Family in Real-Time and Share your
           Experiences with a Realistic Touch of the Future.
         </p>
-        <div className="flex flex-col gap-y-2.5 mt-10 lg:mt-6 xl:mt-10 relative">
+        <div className="flex flex-col gap-y-2.5 mt-10 lg:mt-6 xl:mt-10 relative -z-10">
           <div className="relative">
             <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-6 h-6 text-[#959EAD]" />
             <input
