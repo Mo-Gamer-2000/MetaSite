@@ -38,6 +38,14 @@ const LoginPage = () => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-lg shadow-md w-96"
       >
+        {/* Arrow back to homepage */}
+        <Link
+          to="/"
+          className="absolute top-4 left-4 text-blue-600 hover:text-blue-700"
+        >
+          <ion-icon name="arrow-back-outline" class="text-2xl"></ion-icon>
+        </Link>
+
         <h2 className="text-2xl mb-4 font-semibold text-center">
           Login to Your Account
         </h2>

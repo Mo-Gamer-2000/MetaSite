@@ -9,13 +9,21 @@ import AuthContext from "./context/AuthContext";
 
 function App() {
   const [user, setUser] = useState(null);
+
   const isLoggedIn = Boolean(user);
+
   const login = (userData) => {
     setUser(userData);
+    // Set token to localstorage or perform other login-related tasks...
+  };
+
+  const logout = () => {
+    setUser(null);
+    // Remove token from localstorage or perform other logout-related tasks...
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login }}>
+    <AuthContext.Provider value={{ user, isLoggedIn, login, logout }}>
       <Router>
         <div className="App">
           <Routes>

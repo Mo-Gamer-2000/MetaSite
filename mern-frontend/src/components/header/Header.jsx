@@ -1,16 +1,28 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
-import { useState } from "react";
+import { useContext, useState, useRef } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const Navbar = () => {
+  const { isLoggedIn, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const dropdownRef = useRef(null);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   const Links = [
     { name: "HOME", link: "/" },
     { name: "ABOUT", link: "/about" },
     { name: "SERVICE", link: "/service" },
     { name: "CONTACT", link: "/contact" },
   ];
-
-  const [open, setOpen] = useState(false);
 
   return (
     <div className="w-full fixed top-0 left-0 shadow-md">
@@ -42,9 +54,36 @@ const Navbar = () => {
               </a>
             </li>
           ))}
-          <Link to="/login">
-            <Button>Login</Button>
-          </Link>
+
+          {isLoggedIn ? (
+            <div
+              className="relative cursor-pointer"
+              ref={dropdownRef}
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              <Button>Dashboard</Button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
+                  <Link
+                    to="/dashboard"
+                    className="block px-4 py-2 hover:bg-indigo-500 hover:text-white rounded-sm"
+                  >
+                    Go to Dashboard
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 hover:bg-red-500 hover:text-white rounded-sm"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login">
+              <Button>Login</Button>
+            </Link>
+          )}
         </ul>
       </div>
     </div>
