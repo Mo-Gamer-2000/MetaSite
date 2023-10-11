@@ -21,6 +21,8 @@ app.use(limiter);
 
 // Routes
 app.use("/api/users", userRoutes);
+const postRoutes = require("./routes/posts");
+app.use("/api/posts", postRoutes);
 
 // Error handling
 app.use((err, req, res, next) => {
