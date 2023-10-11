@@ -45,4 +45,52 @@ router.get("/:postId", async (req, res) => {
   }
 });
 
+// Update post
+router.put("/:postId", validateJWT, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    // Ensure the user updating the post is the author
+    if (post.author.toString() !== req.auth.id) {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to update this post." });
+    }
+
+    const { title, caption, image, content } = req.body;
+
+    // Modify the post
+    if (title) post.title = title;
+    if (caption) post.caption = caption;
+    if (image) post.image = image;
+    if (content) post.content = content;
+
+    await post.save();
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Delete post
+router.delete("/:postId", validateJWT, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    // Ensure the user deleting the post is the author
+    if (post.author.toString() !== req.auth.id) {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to delete this post" });
+    }
+
+    await post.remove();
+    res.json({ success: "Post deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
