@@ -31,5 +31,18 @@ router.post("/", validateJWT, async (req, res) => {
   }
 });
 
-// Continue with other routes (Update, Delete, etc.)
+// Fetch individual post by ID
+router.get("/:postId", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId).populate(
+      "author",
+      "username email"
+    );
+    if (!post) return res.status(404).json({ error: "Post not found" });
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
