@@ -4,6 +4,7 @@ const Post = require("../models/Post");
 const validateJWT = require("../middlewares/validateJWT");
 const validatePostData = require("../middlewares/validatePostData");
 const validateCommentData = require("../middlewares/validateComment");
+const Comment = require("../models/Comment");
 
 // Fetch all posts
 router.get("/", async (req, res) => {
@@ -40,16 +41,17 @@ router.post(
   validateCommentData,
   async (req, res) => {
     try {
-      const { content } = req.body;
       const post = await Post.findById(req.params.postId);
       if (!post) return res.status(404).json({ error: "Post not found" });
 
-      const comment = {
+      const newComment = new Comment({
+        text: req.body.content,
         author: req.auth.id,
-        content,
-      };
+        post: req.params.postId,
+      });
+      await newComment.save(); // Save the new comment to the Comment collection
 
-      post.comments.push(comment);
+      post.comments.push(newComment._id); // Add the new comment's ID to the post's comments array
       await post.save();
 
       res.json(post);
@@ -58,6 +60,38 @@ router.post(
     }
   }
 );
+
+// Add Likes/Dislikes to a post
+router.post("/:postId/likes", validateJWT, async (req, res) => {
+  try {
+    const { type } = req.body; // This should be either "LIKE" or "DISLIKE"
+    const post = await Post.findById(req.params.postId);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    // Check for an existing like/dislike by this user on this post
+    const existingLike = await Like.findOne({
+      post: req.params.postId,
+      user: req.auth.id,
+    });
+    if (existingLike) {
+      await existingLike.remove();
+    } else {
+      const like = new Like({
+        type: type,
+        post: req.params.postId,
+        user: req.auth.id,
+      });
+      await like.save();
+
+      post.likes.push(like._id);
+      await post.save();
+    }
+
+    res.json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Update comment in a post
 router.put(
@@ -92,18 +126,27 @@ router.put(
 );
 
 // Fetch individual post by ID
+// Fetch individual post by ID
 router.get("/:postId", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postId).populate(
-      "author",
-      "username email"
-    );
+    const post = await Post.findById(req.params.postId)
+      .populate('author', 'username email') // Populates the post's author
+      .populate({
+        path: 'comments', // Populates the post's comments
+        populate: { path: 'author', select: 'username' } // Within each comment, populates the comment's author
+      })
+      .populate({
+        path: 'likes', // Populates the likes on the post
+        populate: { path: 'user', select: 'username' } // Within each like, populates the user who made the like
+      });
+
     if (!post) return res.status(404).json({ error: "Post not found" });
-    res.json(post);
+    res.json(post); // This will now return a post with its author, comments (and authors of those comments), and likes (and users of those likes).
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Update post
 router.put("/:postId", validateJWT, validatePostData, async (req, res) => {
