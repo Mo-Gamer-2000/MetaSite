@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
+const Comment = require("../models/Comment");
+const Like = require("../models/Like"); 
 const validateJWT = require("../middlewares/validateJWT");
 const validatePostData = require("../middlewares/validatePostData");
 const validateCommentData = require("../middlewares/validateComment");
-const Comment = require("../models/Comment");
 
 // Fetch all posts
 router.get("/", async (req, res) => {
@@ -130,14 +131,14 @@ router.put(
 router.get("/:postId", async (req, res) => {
   try {
     const post = await Post.findById(req.params.postId)
-      .populate('author', 'username email') // Populates the post's author
+      .populate("author", "username email") // Populates the post's author
       .populate({
-        path: 'comments', // Populates the post's comments
-        populate: { path: 'author', select: 'username' } // Within each comment, populates the comment's author
+        path: "comments", // Populates the post's comments
+        populate: { path: "author", select: "username" }, // Within each comment, populates the comment's author
       })
       .populate({
-        path: 'likes', // Populates the likes on the post
-        populate: { path: 'user', select: 'username' } // Within each like, populates the user who made the like
+        path: "likes", // Populates the likes on the post
+        populate: { path: "user", select: "username" }, // Within each like, populates the user who made the like
       });
 
     if (!post) return res.status(404).json({ error: "Post not found" });
@@ -146,7 +147,6 @@ router.get("/:postId", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 // Update post
 router.put("/:postId", validateJWT, validatePostData, async (req, res) => {
