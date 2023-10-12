@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
 const validateJWT = require("../middlewares/validateJWT");
+const validatePostData = require("../middlewares/validatePostData");
+const validateCommentData = require("../middlewares/validateCommentData");
 
 // Fetch all posts
 router.get("/", async (req, res) => {
@@ -14,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 // Create a new post
-router.post("/", validateJWT, async (req, res) => {
+router.post("/", validateJWT, validatePostData, async (req, res) => {
   try {
     const { title, caption, image, content } = req.body;
     const newPost = new Post({
@@ -30,6 +32,64 @@ router.post("/", validateJWT, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// Add comment to a post
+router.post(
+  "/:postId/comments",
+  validateJWT,
+  validateCommentData,
+  async (req, res) => {
+    try {
+      const { content } = req.body;
+      const post = await Post.findById(req.params.postId);
+      if (!post) return res.status(404).json({ error: "Post not found" });
+
+      const comment = {
+        author: req.auth.id,
+        content,
+      };
+
+      post.comments.push(comment);
+      await post.save();
+
+      res.json(post);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+);
+
+// Update comment in a post
+router.put(
+  "/:postId/comments/:commentId",
+  validateJWT,
+  validateCommentData,
+  async (req, res) => {
+    try {
+      const { content } = req.body;
+      const post = await Post.findById(req.params.postId);
+      if (!post) return res.status(404).json({ error: "Post not found" });
+
+      const comment = post.comments.id(req.params.commentId);
+      if (!comment) return res.status(404).json({ error: "Comment not found" });
+
+      // Ensure the user updaating the comment is the author
+      if (comment.author.toString() !== req.auth.id) {
+        return res
+          .status(403)
+          .json({ error: "Not authorised to update this comment" });
+      }
+
+      comment.content = content;
+
+      await post.save();
+
+      res.json(post);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+);
 
 // Fetch individual post by ID
 router.get("/:postId", async (req, res) => {
