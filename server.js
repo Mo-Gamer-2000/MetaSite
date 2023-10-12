@@ -40,6 +40,8 @@ mongoose
   .catch((err) => console.error(err));
 
 const PORT = process.env.PORT || 5000;
+
+// Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
@@ -47,10 +49,4 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-// Error handling
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
 });

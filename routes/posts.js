@@ -3,7 +3,7 @@ const router = express.Router();
 const Post = require("../models/Post");
 const validateJWT = require("../middlewares/validateJWT");
 const validatePostData = require("../middlewares/validatePostData");
-const validateCommentData = require("../middlewares/validateCommentData");
+const validateCommentData = require("../middlewares/validateComment");
 
 // Fetch all posts
 router.get("/", async (req, res) => {
@@ -106,7 +106,7 @@ router.get("/:postId", async (req, res) => {
 });
 
 // Update post
-router.put("/:postId", validateJWT, async (req, res) => {
+router.put("/:postId", validateJWT, validatePostData, async (req, res) => {
   try {
     const post = await Post.findById(req.params.postId);
     if (!post) return res.status(404).json({ error: "Post not found" });
