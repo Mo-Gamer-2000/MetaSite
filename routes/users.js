@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const validateJWT = require("../middlewares/validateJWT");
 const validateUserRegistration = require("../middlewares/validateUserRegistration");
+const CustomError = require("../helpers/CustomError");
 
 const router = express.Router();
-const Joi = require("joi");
 
 // User Registration
 router.post("/register", validateUserRegistration, async (req, res, next) => {
@@ -16,14 +16,14 @@ router.post("/register", validateUserRegistration, async (req, res, next) => {
     // Check if user exists
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ msg: "User already exists" });
+      throw new CustomError("User already exists", 400);
     }
 
     // Create a new user
     user = new User({
       username,
       email,
-      password: await bcrypt.hash(password, 8), // Hashing password
+      password: await bcrypt.hash(password, 8),
       firstName,
       lastName,
     });
@@ -31,34 +31,30 @@ router.post("/register", validateUserRegistration, async (req, res, next) => {
     await user.save();
     res.json({ msg: "User registered successfully" });
   } catch (err) {
-    next(err); // Passes the error to the global error handler
+    next(err);
   }
 });
 
 // User login
 router.post("/login", async (req, res, next) => {
-  console.log("Login Route Hit!");
   try {
-    const { identifier, password } = req.body; // Change email to identifier
+    const { identifier, password } = req.body;
 
-    // Check if identifier is an email or username
     const condition = identifier.includes("@")
       ? { email: identifier }
       : { username: identifier };
 
-    // Check if user exists
     const user = await User.findOne(condition);
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).json({ msg: "Invalid credentials" });
+      throw new CustomError("Invalid credentials", 400);
     }
 
-    // Create JWT token
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "4h",
     });
     res.json({ token, user });
   } catch (err) {
-    next(err); // Passes the error to the global error handler
+    next(err);
   }
 });
 
@@ -71,16 +67,14 @@ router.put("/update/:id", async (req, res, next) => {
     let user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      throw new CustomError("User not found", 404);
     }
 
     user.ID = ID;
-
     await user.save();
-
     res.json({ msg: "User information updated successfully" });
   } catch (err) {
-    next(err); //Passes the error to the global error handler
+    next(err);
   }
 });
 
@@ -93,18 +87,16 @@ router.put("/update/preferences/:id", validateJWT, async (req, res, next) => {
     let user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      throw new CustomError("User not found", 404);
     }
 
     if (menuItems.some((item) => !MENU_ITEMS.includes(item))) {
-      return res.status(400).json({ msg: "Invalid menu items" });
+      throw new CustomError("Invalid menu items", 400);
     }
 
     user.preferences.colorScheme = colorScheme;
     user.preferences.menuItems = menuItems;
-
     await user.save();
-
     res.json({ msg: "User preferences updated successfully" });
   } catch (err) {
     next(err);
