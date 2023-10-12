@@ -4,9 +4,9 @@ require("dotenv").config();
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-
 const app = express();
 const userRoutes = require("./routes/users");
+const errorHandler = require("./middlewares/errorHandler");
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(limiter);
+app.use(errorHandler);
 
 // Routes
 app.use("/api/users", userRoutes);
