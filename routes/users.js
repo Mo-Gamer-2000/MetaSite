@@ -78,40 +78,4 @@ router.put("/update/:id", async (req, res, next) => {
   }
 });
 
-// Update User Preferences
-router.put("/update/preferences/:id", validateJWT, async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { colorScheme, menuItems } = req.body;
-
-    let user = await User.findById(id);
-
-    if (!user) {
-      throw new CustomError("User not found", 404);
-    }
-
-    if (menuItems.some((item) => !MENU_ITEMS.includes(item))) {
-      throw new CustomError("Invalid menu items", 400);
-    }
-
-    user.preferences.colorScheme = colorScheme;
-    user.preferences.menuItems = menuItems;
-    await user.save();
-    res.json({ msg: "User preferences updated successfully" });
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Dynamic Navigation Menu
-const MENU_ITEMS = ["Dashboard", "Profile", "Settings", "Logout"];
-
-// Fetch available menu items
-router.get("/menu-items", validateJWT, (req, res) => {
-  res.json(MENU_ITEMS);
-});
-
-// Toggle menu items based on user preferences - this would tie into the update preferences route.
-
-// Add other routes as needed
 module.exports = router;
