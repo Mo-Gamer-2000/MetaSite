@@ -7,21 +7,23 @@ const Main = () => {
   const blogPosts = [
     {
       title: "The Future with AI",
-      caption: "Explore how artificial intelligence is poised to reshape our world, from healthcare to finance, and what it means for humanity's future.",
+      caption:
+        "Explore how artificial intelligence is poised to reshape our world, from healthcare to finance, and what it means for humanity's future.",
       image: `${images.Main}`,
     },
     {
       title: "The Century of Robotics",
-      caption: "Dive deep into the era of robotics, understanding its rapid evolution, and the potential it holds for revolutionizing industries.",
+      caption:
+        "Dive deep into the era of robotics, understanding its rapid evolution, and the potential it holds for revolutionizing industries.",
       image: `${images.Main}`,
     },
     {
       title: "The Quantum Revolution",
-      caption: "Unravel the mysteries of quantum computing and how it might be the key to unlocking unprecedented computational power.",
+      caption:
+        "Unravel the mysteries of quantum computing and how it might be the key to unlocking unprecedented computational power.",
       image: `${images.Main}`,
     },
   ];
-  
 
   return (
     <section className="container mx-auto flex flex-col px-5 py-10">
@@ -67,7 +69,6 @@ const Main = () => {
           </ul>
         </div>
       </div>
-
       {/* Blog posts */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
         {blogPosts.map((post, idx) => (
