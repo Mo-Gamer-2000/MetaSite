@@ -1,29 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchAllPosts } from "../../../api";
 import { FiSearch } from "react-icons/fi";
 import images from "../../../constants/images";
 
 const Main = () => {
-  // Sample blog posts data
-  const blogPosts = [
-    {
-      title: "The Future with AI",
-      caption:
-        "Explore how artificial intelligence is poised to reshape our world, from healthcare to finance, and what it means for humanity's future.",
-      image: `${images.Main}`,
-    },
-    {
-      title: "The Century of Robotics",
-      caption:
-        "Dive deep into the era of robotics, understanding its rapid evolution, and the potential it holds for revolutionizing industries.",
-      image: `${images.Main}`,
-    },
-    {
-      title: "The Quantum Revolution",
-      caption:
-        "Unravel the mysteries of quantum computing and how it might be the key to unlocking unprecedented computational power.",
-      image: `${images.Main}`,
-    },
-  ];
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    async function loadPosts() {
+      try {
+        const postsData = await fetchAllPosts();
+        setPosts(postsData);
+      } catch (error) {
+        console.error("Error loading posts:", error);
+      }
+    }
+
+    loadPosts();
+  }, []);
 
   return (
     <section className="container mx-auto flex flex-col px-5 py-10">
@@ -71,11 +65,11 @@ const Main = () => {
       </div>
       {/* Blog posts */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-        {blogPosts.map((post, idx) => (
+        {posts.map((post, idx) => (
           <div key={idx} className="bg-white shadow-lg rounded p-4">
             <img
               className="w-full h-48 object-cover rounded-t"
-              src={post.image}
+              src={post.image} // Make sure the post object has an 'image' property
               alt={post.title}
             />
             <h2 className="mt-4 text-xl font-semibold text-black">
