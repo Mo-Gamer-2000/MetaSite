@@ -33,9 +33,12 @@ const Dashboard = () => {
 
       {/* Dashboard Tabs */}
       <div className="flex justify-start mb-8 space-x-4 overflow-x-auto">
-        <button className="px-6 py-2 text-sm sm:text-base bg-blue-500 text-white rounded-full focus:outline-none focus:bg-blue-600">
-          Section 1
-        </button>
+        <Link
+          to="/create-post"
+          className="px-6 py-2 text-sm sm:text-base bg-blue-500 text-white rounded-full focus:outline-none focus:bg-blue-600"
+        >
+          Create Post
+        </Link>
         <button className="px-6 py-2 text-sm sm:text-base bg-blue-500 text-white rounded-full focus:outline-none focus:bg-blue-600">
           Section 2
         </button>
@@ -56,7 +59,7 @@ const Dashboard = () => {
           to="/"
           className="inline-block px-6 py-2 text-sm sm:text-base bg-red-500 text-white rounded-full focus:outline-none focus:bg-red-600"
         >
-          Return to HomePage
+          Back to Homepage
         </Link>
       </div>
     </div>

@@ -6,6 +6,7 @@ import RegisterPage from "./components/register/RegisterPage";
 import ProtectedRoute from "./components/login/ProtectedRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import AuthContext from "./context/AuthContext";
+import CreatePost from "./components/CreatePost";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -30,6 +31,7 @@ function App() {
             <Route index path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/create-post" element={<CreatePost />} />
             <Route
               path="/dashboard"
               element={
