@@ -4,31 +4,75 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
+  const { user } = useContext(AuthContext);
+  // Logging the current user for debugging purposes
+  console.log("Current User:", user);
+
   const [title, setTitle] = useState("");
   const [caption, setCaption] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState("");
-  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("Submit button clicked with user:", user); // Log the user data
+
+    if (!user || !user.token) {
+      alert("User is not authenticated.");
+      navigate("/login");
+      return;
+    }
+
     if (!title || !caption || !content || !image) {
       alert("All fields are required.");
       return;
     }
 
-    // ... [rest of the logic remains the same]
-    alert("Post created successfully!");
-    navigate("/dashboard");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
+
+    const data = {
+      title,
+      caption,
+      image,
+      content,
+      author: user.id,
+    };
+
+    console.log("Headers for the API Call:", config.headers); // Log the headers
+    console.log("Data for the API Call:", data); // Log the data you're sending
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/posts",
+        data,
+        config
+      );
+
+      if (response && response.data && response.status === 200) {
+        alert("Post created successfully!");
+        navigate("/dashboard");
+      } else {
+        alert("There was a problem creating your post.");
+      }
+    } catch (error) {
+      console.error("Error creating post:", error);
+      alert(error.message || "An error occurred while creating the post.");
+    }
   };
 
   const [userPosts, setUserPosts] = useState([]);
 
   useEffect(() => {
     const fetchUserPosts = async () => {
+      if (!user) return; // <- Add this line
+
       try {
         const response = await axios.get(
           `http://localhost:5000/api/posts?author=${user.id}`
@@ -40,7 +84,7 @@ function CreatePost() {
     };
 
     fetchUserPosts();
-  }, []);
+  }, [user]);
 
   return (
     <div className="bg-white shadow rounded-lg p-6">

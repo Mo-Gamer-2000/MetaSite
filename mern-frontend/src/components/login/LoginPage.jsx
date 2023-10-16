@@ -21,6 +21,8 @@ const LoginPage = () => {
     try {
       const { data } = await axiosInstance.post("/users/login", formData);
 
+      console.log("Login response:", data); // Log the response after login
+
       login(data.user);
       navigate("/dashboard"); // Redirect User to Dashboard Page
     } catch (err) {
