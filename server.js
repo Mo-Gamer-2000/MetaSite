@@ -25,12 +25,6 @@ app.use("/api/users", userRoutes);
 const postRoutes = require("./routes/posts");
 app.use("/api/posts", postRoutes);
 
-// Error handling
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
-});
-
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
