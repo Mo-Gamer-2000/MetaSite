@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../axiosInstance";
 
 function CreatePost() {
   const { user } = useContext(AuthContext);
@@ -21,6 +21,7 @@ function CreatePost() {
     console.log("Submit button clicked with user:", user); // Log the user data
 
     if (!user || !user.token) {
+      console.log("£dsa");
       alert("User is not authenticated.");
       navigate("/login");
       return;
@@ -33,7 +34,7 @@ function CreatePost() {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     };
 
@@ -49,12 +50,7 @@ function CreatePost() {
     console.log("Data for the API Call:", data); // Log the data you're sending
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/posts",
-        data,
-        config
-      );
-
+      const response = await axiosInstance.post("/posts", data);
       if (response && response.data && response.status === 200) {
         alert("Post created successfully!");
         navigate("/dashboard");
@@ -74,7 +70,7 @@ function CreatePost() {
       if (!user) return; // <- Add this line
 
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `http://localhost:5000/api/posts?author=${user.id}`
         );
         setUserPosts(response.data);

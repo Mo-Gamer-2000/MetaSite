@@ -1,11 +1,6 @@
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
-const api = axios.create({
-  baseURL: "http://localhost:5000/api", // setting the backend base URL
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+const api = axiosInstance;
 
 // Fetch all posts
 export const fetchAllPosts = async () => {

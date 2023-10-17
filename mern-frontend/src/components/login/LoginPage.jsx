@@ -20,10 +20,11 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const { data } = await axiosInstance.post("/users/login", formData);
-
       console.log("Login response:", data); // Log the response after login
 
-      login(data.user);
+      // This login function will now also store the token in local storage
+      login(data.user, data.token);
+
       navigate("/dashboard"); // Redirect User to Dashboard Page
     } catch (err) {
       if (err.response) {
