@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 
 function CreatePost() {
-  const { user } = useContext(AuthContext);
-  // Logging the current user for debugging purposes
+  const user = JSON.parse(localStorage.getItem("user"));
   console.log("Current User:", user);
 
   const [title, setTitle] = useState("");
@@ -17,11 +16,10 @@ function CreatePost() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submit button clicked with user:", user);
 
-    console.log("Submit button clicked with user:", user); // Log the user data
-
-    if (!user || !user.token) {
-      console.log("£dsa");
+    const token = localStorage.getItem("token");
+    if (!token) {
       alert("User is not authenticated.");
       navigate("/login");
       return;
@@ -43,14 +41,13 @@ function CreatePost() {
       caption,
       image,
       content,
-      author: user.id,
     };
 
-    console.log("Headers for the API Call:", config.headers); // Log the headers
-    console.log("Data for the API Call:", data); // Log the data you're sending
+    console.log("Headers for the API Call:", config.headers);
+    console.log("Data for the API Call:", data);
 
     try {
-      const response = await axiosInstance.post("/posts", data);
+      const response = await axiosInstance.post("/posts", data, config);
       if (response && response.data && response.status === 200) {
         alert("Post created successfully!");
         navigate("/dashboard");
@@ -58,6 +55,11 @@ function CreatePost() {
         alert("There was a problem creating your post.");
       }
     } catch (error) {
+      if (error.response && error.response.data) {
+        console.error("Error response from server:", error.response.data);
+        console.error("Error from server:", error.response.data.error);
+      }
+
       console.error("Error creating post:", error);
       alert(error.message || "An error occurred while creating the post.");
     }
@@ -67,12 +69,10 @@ function CreatePost() {
 
   useEffect(() => {
     const fetchUserPosts = async () => {
-      if (!user) return; // <- Add this line
+      if (!user) return;
 
       try {
-        const response = await axiosInstance.get(
-          `http://localhost:5000/api/posts?author=${user.id}`
-        );
+        const response = await axiosInstance.get(`/posts?author=${user._id}`); // changed user.id to user._id
         setUserPosts(response.data);
       } catch (error) {
         console.error("Failed to fetch user posts:", error);
@@ -80,7 +80,7 @@ function CreatePost() {
     };
 
     fetchUserPosts();
-  }, [user]);
+  }, []);
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
