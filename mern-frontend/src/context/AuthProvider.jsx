@@ -7,9 +7,13 @@ export const AuthProvider = (props) => {
   const [user, setUser] = useState(storedUser);
 
   const login = (userData, token) => {
+    console.log("LocalStorage after login:", localStorage);
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
     localStorage.setItem("token", token);
+    console.log("User before setting:", user);
+    setUser(userData);
+    console.log("User after setting:", user);
   };
 
   const logout = () => {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllPosts } from "../../../api";
 import { FiSearch } from "react-icons/fi";
-import images from "../../../constants/images";
 
 const Main = () => {
   const [posts, setPosts] = useState([]);

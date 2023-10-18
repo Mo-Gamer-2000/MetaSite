@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 
 function CreatePost() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const { user, logout } = useContext(AuthContext); // Use context here
   console.log("Current User:", user);
 
   const [title, setTitle] = useState("");
@@ -18,8 +18,7 @@ function CreatePost() {
     e.preventDefault();
     console.log("Submit button clicked with user:", user);
 
-    const token = localStorage.getItem("token");
-    if (!token) {
+    if (!user) {
       alert("User is not authenticated.");
       navigate("/login");
       return;
@@ -45,6 +44,8 @@ function CreatePost() {
 
     console.log("Headers for the API Call:", config.headers);
     console.log("Data for the API Call:", data);
+    console.log("Token used for this request:", localStorage.getItem("token"));
+
 
     try {
       const response = await axiosInstance.post("/posts", data, config);
@@ -55,7 +56,15 @@ function CreatePost() {
         alert("There was a problem creating your post.");
       }
     } catch (error) {
-      if (error.response && error.response.data) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          // Log the user out if the token is invalid or expired
+          logout();
+          navigate("/login");
+          alert("Your session has expired. Please log in again.");
+          return;
+        }
+
         console.error("Error response from server:", error.response.data);
         console.error("Error from server:", error.response.data.error);
       }
@@ -72,7 +81,7 @@ function CreatePost() {
       if (!user) return;
 
       try {
-        const response = await axiosInstance.get(`/posts?author=${user._id}`); // changed user.id to user._id
+        const response = await axiosInstance.get(`/posts?author=${user._id}`); // Use context user
         setUserPosts(response.data);
       } catch (error) {
         console.error("Failed to fetch user posts:", error);
@@ -80,7 +89,7 @@ function CreatePost() {
     };
 
     fetchUserPosts();
-  }, []);
+  }, [user]); // Add user to dependency list
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
