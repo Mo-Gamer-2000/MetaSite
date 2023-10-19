@@ -31,14 +31,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/create-post" element={<CreatePost />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/dashboard"element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           </Routes>
         </div>
       </Router>

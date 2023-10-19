@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../axiosInstance";
 
 function CreatePost() {
@@ -45,7 +45,6 @@ function CreatePost() {
     console.log("Headers for the API Call:", config.headers);
     console.log("Data for the API Call:", data);
     console.log("Token used for this request:", localStorage.getItem("token"));
-
 
     try {
       const response = await axiosInstance.post("/posts", data, config);
@@ -93,7 +92,13 @@ function CreatePost() {
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-2xl text-blue-600 mb-4">Create a New Post</h2>
+      <Link
+        to="/dashboard"
+        className="absolute top-4 left-4 text-blue-600 hover:text-blue-700"
+      >
+        <ion-icon name="arrow-back-outline" class="text-2xl"></ion-icon>
+      </Link>
+      <h2 className="text-2xl text-blue-600 mb-4 pt-6">Create a New Post</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-black font-medium mb-2">Title:</label>
