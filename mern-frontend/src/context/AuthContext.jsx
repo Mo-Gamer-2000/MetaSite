@@ -27,14 +27,14 @@ export const AuthProvider = ({ children }) => {
 
     // If userData contains a token, store it in local storage
     if (userData && userData.token) {
-      localStorage.setItem("userToken", userData.token);
+      localStorage.setItem("token", userData.token);
     }
   };
 
   const logout = () => {
     setUser(null);
     // Remove token from local storage
-    localStorage.removeItem("userToken");
+    localStorage.removeItem("token");
   };
 
   return (
