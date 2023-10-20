@@ -66,7 +66,7 @@ const Navbar = () => {
               className="relative cursor-pointer"
               onClick={() => setDropdownOpen(!dropdownOpen)}
             >
-              <Button>Dashboard</Button>
+              <Button>Account</Button>
               {dropdownOpen && (
                 <div
                   className={`fixed bottom-0 left-0 w-full transition-transform transform ${
