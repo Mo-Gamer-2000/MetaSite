@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/login/ProtectedRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreatePost from "./components/CreatePost";
 import { AuthProvider } from "./context/AuthContext"; // Updated import
+import PostDetailPage from "./pages/PostDetailPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/post/:postId" element={<PostDetailPage />} />
           </Routes>
         </div>
       </Router>

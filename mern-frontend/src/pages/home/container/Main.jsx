@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllPosts } from "../../../api";
 import { FiSearch } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const Main = () => {
   const [posts, setPosts] = useState([]);
@@ -65,17 +66,19 @@ const Main = () => {
       {/* Blog posts */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
         {posts.map((post, idx) => (
-          <div key={idx} className="bg-white shadow-lg rounded p-4">
-            <img
-              className="w-full h-48 object-cover rounded-t"
-              src={post.image} // Make sure the post object has an 'image' property
-              alt={post.title}
-            />
-            <h2 className="mt-4 text-xl font-semibold text-black">
-              {post.title}
-            </h2>
-            <p className="text-black mt-2">{post.caption}</p>
-          </div>
+          <Link to={`/post/${post._id}`} key={idx}>
+            <div className="bg-white shadow-lg rounded p-4">
+              <img
+                className="w-full h-48 object-cover rounded-t"
+                src={post.image} // Make sure the post object has an 'image' property
+                alt={post.title}
+              />
+              <h2 className="mt-4 text-xl font-semibold text-black">
+                {post.title}
+              </h2>
+              <p className="text-black mt-2">{post.caption}</p>
+            </div>
+          </Link>
         ))}
       </div>
     </section>

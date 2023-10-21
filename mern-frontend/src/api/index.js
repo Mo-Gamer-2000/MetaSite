@@ -48,4 +48,15 @@ export const addCommentToPost = async (postId, commentData) => {
   }
 };
 
+// Fetch a specific post by ID
+export const fetchPostById = async (postId) => {
+  try {
+    const response = await api.get(`/posts/${postId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching post by ID:", error);
+    throw error;
+  }
+};
+
 export default api;
