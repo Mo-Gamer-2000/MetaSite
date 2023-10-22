@@ -28,7 +28,7 @@ const PostDetailPage = () => {
       <p>{post.content}</p>
       <div>
         <h3>Comments:</h3>
-        {post.comments.map((comment) => (
+        {post.comments && post.comments.map((comment) => (
           <div key={comment._id}>
             <strong>{comment.author.username}</strong>: {comment.text}
           </div>
@@ -36,7 +36,7 @@ const PostDetailPage = () => {
       </div>
       <div>
         <h3>Likes:</h3>
-        {post.likes.map((like) => (
+        {post.likes && post.likes.map((like) => (
           <div key={like._id}>
             <strong>{like.user.username}</strong> gave a {like.type}
           </div>
@@ -44,6 +44,7 @@ const PostDetailPage = () => {
       </div>
     </div>
   );
+  
 };
 
 export default PostDetailPage;
