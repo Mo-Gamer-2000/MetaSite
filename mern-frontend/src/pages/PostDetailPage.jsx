@@ -88,9 +88,8 @@ const PostDetailPage = () => {
                   rows="3"
                   className="w-full p-3 rounded-lg text-black mb-3 shadow-inner"
                 ></textarea>
-
                 <button className="bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded-md shadow-md">
-                  Submit Comment
+                  Send
                 </button>
               </div>
             </div>

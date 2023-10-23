@@ -6,14 +6,12 @@ import RegisterPage from "./components/register/RegisterPage";
 import ProtectedRoute from "./components/login/ProtectedRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreatePost from "./components/CreatePost";
-import { AuthProvider } from "./context/AuthContext"; // Updated import
+import { AuthProvider } from "./context/AuthContext";
 import PostDetailPage from "./pages/PostDetailPage";
 
 function App() {
   return (
     <AuthProvider>
-      {" "}
-      {/* Use AuthProvider here */}
       <Router>
         <div className="App">
           <Routes>
