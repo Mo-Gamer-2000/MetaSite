@@ -8,6 +8,11 @@ const PostDetailPage = () => {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
 
+  const [likes, setLikes] = useState(post ? post.likesCount : 0); // assuming your post object has a likesCount property
+  const [dislikes, setDislikes] = useState(post ? post.dislikesCount : 0); // assuming your post object has a dislikesCount property
+  const [userLiked, setUserLiked] = useState(false); // this should be fetched based on the logged in user
+  const [userDisliked, setUserDisliked] = useState(false); // this should be fetched based on the logged in user
+
   useEffect(() => {
     async function loadPost() {
       try {
@@ -19,6 +24,40 @@ const PostDetailPage = () => {
     }
     loadPost();
   }, [postId]);
+
+  const handleLike = async () => {
+    if (userDisliked) {
+      // Call your API to unlike and then:
+      setDislikes(dislikes - 1);
+      setUserDisliked(false);
+    }
+    if (!userLiked) {
+      // Call your API to like and then:
+      setLikes(likes + 1);
+      setUserLiked(true);
+    } else {
+      // Call your API to remove like and then:
+      setLikes(likes - 1);
+      setUserLiked(false);
+    }
+  };
+
+  const handleDislike = async () => {
+    if (userLiked) {
+      // Call your API to unlike and then:
+      setLikes(likes - 1);
+      setUserLiked(false);
+    }
+    if (!userDisliked) {
+      // Call your API to dislike and then:
+      setDislikes(dislikes + 1);
+      setUserDisliked(true);
+    } else {
+      // Call your API to remove dislike and then:
+      setDislikes(dislikes - 1);
+      setUserDisliked(false);
+    }
+  };
 
   if (!post)
     return <div className="text-center text-black py-10">Loading...</div>;
@@ -51,13 +90,27 @@ const PostDetailPage = () => {
 
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-3">
-                <button className="flex items-center space-x-2 text-indigo-600 hover:text-indigo-800">
+                <button
+                  className={`flex items-center space-x-2 ${
+                    userLiked
+                      ? "text-indigo-800"
+                      : "text-indigo-600 hover:text-indigo-800"
+                  }`}
+                  onClick={() => handleLike()}
+                >
                   <IoThumbsUp className="w-5 h-5" />
-                  <span>Like</span>
+                  <span>{likes}</span>
                 </button>
-                <button className="flex items-center space-x-2 text-indigo-600 hover:text-indigo-800">
+                <button
+                  className={`flex items-center space-x-2 ${
+                    userDisliked
+                      ? "text-indigo-800"
+                      : "text-indigo-600 hover:text-indigo-800"
+                  }`}
+                  onClick={() => handleDislike()}
+                >
                   <IoThumbsDown className="w-5 h-5" />
-                  <span>Dislike</span>
+                  <span>{dislikes}</span>
                 </button>
               </div>
               <div className="font-medium text-indigo-600">
