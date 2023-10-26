@@ -50,13 +50,14 @@ router.post(
       if (!post) throw new CustomError("Post not found", 404);
 
       const newComment = new Comment({
-        text: req.body.content,
+        text: req.body.text,
         author: req.auth.id,
         post: req.params.postId,
+        repliedTo: req.body.repliedTo,
       });
-      await newComment.save(); // Save the new comment to the Comment collection
+      await newComment.save();
 
-      post.comments.push(newComment._id); // Add the new comment's ID to the post's comments array
+      post.comments.push(newComment._id);
       await post.save();
 
       res.json(post);
@@ -69,17 +70,29 @@ router.post(
 // Add Likes/Dislikes to a post
 router.post("/:postId/likes", validateJWT, async (req, res, next) => {
   try {
-    const { type } = req.body; // This should be either "LIKE" or "DISLIKE"
+    const { type } = req.body;
+
     const post = await Post.findById(req.params.postId);
     if (!post) throw new CustomError("Post not found", 404);
 
-    // Check for an existing like/dislike by this user on this post
     const existingLike = await Like.findOne({
       post: req.params.postId,
       user: req.auth.id,
     });
+
     if (existingLike) {
-      await existingLike.remove();
+      // If the user changes their like/dislike action
+      if (existingLike.type !== type) {
+        existingLike.type = type;
+        await existingLike.save();
+      } else {
+        // If the user wants to undo their previous action
+        await existingLike.remove();
+        const index = post.likes.indexOf(existingLike._id);
+        if (index > -1) {
+          post.likes.splice(index, 1);
+        }
+      }
     } else {
       const like = new Like({
         type: type,
@@ -87,11 +100,9 @@ router.post("/:postId/likes", validateJWT, async (req, res, next) => {
         user: req.auth.id,
       });
       await like.save();
-
-      post.likes.push(like._id);
-      await post.save();
+      post.likes.push(like);
     }
-
+    await post.save();
     res.json(post);
   } catch (err) {
     next(err);
@@ -133,18 +144,24 @@ router.put(
 router.get("/:postId", async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.postId)
-      .populate("author", "username email") // Populates the post's author
+      .populate("author", "username email")
       .populate({
-        path: "comments", // Populates the post's comments
-        populate: { path: "author", select: "username" }, // Within each comment, populates the comment's author
+        path: "comments",
+        populate: [
+          { path: "author", select: "username" },
+          {
+            path: "repliedTo",
+            populate: { path: "author", select: "username" },
+          }, // Nested populate for replies
+        ],
       })
       .populate({
-        path: "likes", // Populates the likes on the post
-        populate: { path: "user", select: "username" }, // Within each like, populates the user who made the like
+        path: "likes",
+        populate: { path: "user", select: "username" },
       });
 
     if (!post) throw new CustomError("Post not found", 404);
-    res.json(post); // This will now return a post with its author, comments (and authors of those comments), and likes (and users of those likes).
+    res.json(post);
   } catch (err) {
     next(err);
   }

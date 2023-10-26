@@ -12,6 +12,9 @@ const PostDetailPage = () => {
   const [dislikes, setDislikes] = useState(post ? post.dislikesCount : 0); // assuming your post object has a dislikesCount property
   const [userLiked, setUserLiked] = useState(false); // this should be fetched based on the logged in user
   const [userDisliked, setUserDisliked] = useState(false); // this should be fetched based on the logged in user
+  const [newComment, setNewComment] = useState("");
+  const [replyToCommentId, setReplyToCommentId] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function loadPost() {
@@ -56,6 +59,20 @@ const PostDetailPage = () => {
       // Call your API to remove dislike and then:
       setDislikes(dislikes - 1);
       setUserDisliked(false);
+    }
+  };
+
+  const handleCommentSubmit = async () => {
+    try {
+      // Call your API to submit the comment with the content and the optional replyToCommentId
+
+      // After successful submission:
+      setNewComment(""); // Clear the textarea
+      setReplyToCommentId(null); // Clear the replyToCommentId
+      // Ideally, re-fetch the post or append the comment to the post in the state for immediate UI feedback
+    } catch (err) {
+      setError("Failed to submit the comment. Please try again later.");
+      console.error("Error submitting comment:", err);
     }
   };
 
@@ -132,18 +149,45 @@ const PostDetailPage = () => {
                       {comment.author.username}
                     </strong>
                     :<p className="text-black ml-2">{comment.text}</p>
+                    {comment.repliedTo && (
+                      <div className="ml-6 mt-2 bg-gray-100 p-2 rounded">
+                        <strong className="text-indigo-500">
+                          Replied to {comment.repliedTo.author.username}
+                        </strong>
+                        :
+                        <p className="text-black ml-2">
+                          {comment.repliedTo.text}
+                        </p>
+                      </div>
+                    )}
+                    <button
+                      onClick={() => setReplyToCommentId(comment._id)}
+                      className="text-indigo-600 ml-2 mt-2 hover:underline"
+                    >
+                      Reply
+                    </button>
                   </div>
                 ))}
 
               <div className="mt-4">
                 <textarea
-                  placeholder="Add your comment..."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder={
+                    replyToCommentId
+                      ? "Reply to the comment..."
+                      : "Add your comment..."
+                  }
                   rows="3"
                   className="w-full p-3 rounded-lg text-black mb-3 shadow-inner"
                 ></textarea>
-                <button className="bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded-md shadow-md">
+                <button
+                  onClick={handleCommentSubmit}
+                  className="bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded-md shadow-md"
+                >
                   Send
                 </button>
+                {error && <div className="text-red-500 mt-2">{error}</div>}
               </div>
             </div>
           </div>
