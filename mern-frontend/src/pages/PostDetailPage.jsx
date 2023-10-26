@@ -19,7 +19,9 @@ const PostDetailPage = () => {
   useEffect(() => {
     async function loadPost() {
       try {
+        console.log("Fetching post with ID:", postId);
         const postData = await fetchPostById(postId);
+        console.log("Fetched post data:", postData);
         setPost(postData);
       } catch (error) {
         console.error("Error loading post:", error);
@@ -28,7 +30,24 @@ const PostDetailPage = () => {
     loadPost();
   }, [postId]);
 
+  useEffect(() => {
+    console.log("Post state changed:", post);
+  }, [post]);
+
+  useEffect(() => {
+    console.log("Likes count changed:", likes);
+  }, [likes]);
+
+  useEffect(() => {
+    console.log("Dislikes count changed:", dislikes);
+  }, [dislikes]);
+
+  useEffect(() => {
+    console.log("New comment text:", newComment);
+  }, [newComment]);
+
   const handleLike = async () => {
+    console.log("Like button clicked!");
     if (userDisliked) {
       // Call your API to unlike and then:
       setDislikes(dislikes - 1);
@@ -46,6 +65,7 @@ const PostDetailPage = () => {
   };
 
   const handleDislike = async () => {
+    console.log("Dislike button clicked!");
     if (userLiked) {
       // Call your API to unlike and then:
       setLikes(likes - 1);
@@ -63,6 +83,10 @@ const PostDetailPage = () => {
   };
 
   const handleCommentSubmit = async () => {
+    console.log("Submitting comment:", newComment);
+    if (replyToCommentId) {
+      console.log("This is a reply to comment ID:", replyToCommentId);
+    }
     try {
       // Call your API to submit the comment with the content and the optional replyToCommentId
 
