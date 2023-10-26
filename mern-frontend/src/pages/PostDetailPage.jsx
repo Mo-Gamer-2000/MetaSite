@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchPostById } from "../api";
+import api, { fetchPostById } from "../api";
 import { IoThumbsUp, IoThumbsDown } from "react-icons/io5";
 import MainLayout from "../components/MainLayout";
 
 const PostDetailPage = () => {
   const [post, setPost] = useState(null);
   const { postId } = useParams();
-
-  const [likes, setLikes] = useState(post ? post.likesCount : 0); // assuming your post object has a likesCount property
-  const [dislikes, setDislikes] = useState(post ? post.dislikesCount : 0); // assuming your post object has a dislikesCount property
-  const [userLiked, setUserLiked] = useState(false); // this should be fetched based on the logged in user
-  const [userDisliked, setUserDisliked] = useState(false); // this should be fetched based on the logged in user
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+  const [userLiked, setUserLiked] = useState(false);
+  const [userDisliked, setUserDisliked] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [replyToCommentId, setReplyToCommentId] = useState(null);
   const [error, setError] = useState("");
@@ -23,8 +22,11 @@ const PostDetailPage = () => {
         const postData = await fetchPostById(postId);
         console.log("Fetched post data:", postData);
         setPost(postData);
+        setLikes(postData.likesCount);
+        setDislikes(postData.dislikesCount);
       } catch (error) {
         console.error("Error loading post:", error);
+        setError("Failed to load post details. Please try again later.");
       }
     }
     loadPost();
@@ -48,55 +50,70 @@ const PostDetailPage = () => {
 
   const handleLike = async () => {
     console.log("Like button clicked!");
-    if (userDisliked) {
-      // Call your API to unlike and then:
-      setDislikes(dislikes - 1);
-      setUserDisliked(false);
-    }
-    if (!userLiked) {
-      // Call your API to like and then:
-      setLikes(likes + 1);
-      setUserLiked(true);
-    } else {
-      // Call your API to remove like and then:
-      setLikes(likes - 1);
-      setUserLiked(false);
+    try {
+      const response = userLiked
+        ? await api.delete(`/posts/${postId}/likes`)
+        : await api.post(`/posts/${postId}/likes`, { type: "LIKE" });
+
+      if (response.status === 200) {
+        if (userDisliked) {
+          setDislikes(dislikes - 1);
+          setUserDisliked(false);
+        }
+        setUserLiked(!userLiked);
+        setLikes(userLiked ? likes - 1 : likes + 1);
+      } else {
+        throw new Error("Failed to like the post.");
+      }
+    } catch (error) {
+      console.error(error);
+      setError("Failed to like the post. Please try again later.");
     }
   };
 
   const handleDislike = async () => {
     console.log("Dislike button clicked!");
-    if (userLiked) {
-      // Call your API to unlike and then:
-      setLikes(likes - 1);
-      setUserLiked(false);
-    }
-    if (!userDisliked) {
-      // Call your API to dislike and then:
-      setDislikes(dislikes + 1);
-      setUserDisliked(true);
-    } else {
-      // Call your API to remove dislike and then:
-      setDislikes(dislikes - 1);
-      setUserDisliked(false);
+    try {
+      const response = userDisliked
+        ? await api.delete(`/posts/${postId}/likes`)
+        : await api.post(`/posts/${postId}/likes`, { type: "DISLIKE" });
+
+      if (response.status === 200) {
+        if (userLiked) {
+          setLikes(likes - 1);
+          setUserLiked(false);
+        }
+        setUserDisliked(!userDisliked);
+        setDislikes(userDisliked ? dislikes - 1 : dislikes + 1);
+      } else {
+        throw new Error("Failed to dislike the post.");
+      }
+    } catch (error) {
+      console.error(error);
+      setError("Failed to dislike the post. Please try again later.");
     }
   };
 
   const handleCommentSubmit = async () => {
     console.log("Submitting comment:", newComment);
-    if (replyToCommentId) {
-      console.log("This is a reply to comment ID:", replyToCommentId);
-    }
     try {
-      // Call your API to submit the comment with the content and the optional replyToCommentId
+      const response = await api.post(`/posts/${postId}/comments`, {
+        text: newComment,
+        replyTo: replyToCommentId,
+      });
 
-      // After successful submission:
-      setNewComment(""); // Clear the textarea
-      setReplyToCommentId(null); // Clear the replyToCommentId
-      // Ideally, re-fetch the post or append the comment to the post in the state for immediate UI feedback
+      if (response.status === 200) {
+        setNewComment("");
+        setReplyToCommentId(null);
+        // Ideally, re-fetch the post or append the comment to the post in the state
+      } else {
+        throw new Error(
+          response.data.message || "Failed to submit the comment."
+        );
+      }
     } catch (err) {
-      setError("Failed to submit the comment. Please try again later.");
       console.error("Error submitting comment:", err);
+      setError("Failed to submit the comment. Please try again later.");
     }
   };
 
