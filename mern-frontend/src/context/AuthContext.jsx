@@ -28,6 +28,9 @@ export const AuthProvider = ({ children }) => {
     // If userData contains a token, store it in local storage
     if (userData && userData.token) {
       localStorage.setItem("token", userData.token);
+      console.log("After setting token, local storage is:", localStorage);
+      console.log("Token value is:", userData.token);
+
     }
   };
 

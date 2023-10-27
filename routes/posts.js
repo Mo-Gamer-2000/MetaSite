@@ -68,7 +68,7 @@ router.post(
 );
 
 // Add Likes/Dislikes to a post
-router.post("/posts/:postId/likes", validateJWT, async (req, res, next) => {
+router.post("/:postId/likes", validateJWT, async (req, res, next) => {
   try {
     const { type } = req.body;
 
