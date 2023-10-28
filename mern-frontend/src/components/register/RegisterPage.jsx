@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "../../axiosInstance";
+import axiosInstance from "../../axiosInstance";
 
 const RegisterPage = () => {
   const navigate = useNavigate(); // Initialize it here
@@ -34,7 +34,10 @@ const RegisterPage = () => {
     delete registerData.confirmPassword;
 
     try {
-      const { data } = await axios.post("/users/register", registerData);
+      const { data } = await axiosInstance.post(
+        "/users/register",
+        registerData
+      );
       console.log(data.msg); // Registration success message
       // Redirect to login or any other action can be done here
       navigate("/login");
