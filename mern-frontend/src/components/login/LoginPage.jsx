@@ -23,7 +23,7 @@ const LoginPage = () => {
       console.log("Login response:", data); // Log the response after login
 
       // This login function will now also store the token in local storage
-      login(data.user, data.token);
+      login({ user: data.user, token: data.token });
       console.log("LocalStorage after login:", localStorage);
 
       navigate("/dashboard"); // Redirect User to Dashboard Page
