@@ -20,10 +20,10 @@ const Footer = () => {
             className="text-black sm:w-72 w-full sm:mr-5 mr-1 lg:mb-0 mb-4 py-2.5 rounded px-2 focus:outline-none"
           />
           <button className=" bg-black hover:bg-gray-900 duration-300 px-5 py-2.5 rounded-md text-white md:w-auto w-full">
-            Enter
+            Register
           </button>
           <p className="text-black text-1xl pt-1 font-semibold">
-            Sign up for weekly updates⬆️
+            Register for weekly updates⬆️
           </p>
         </div>
       </div>
