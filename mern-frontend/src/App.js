@@ -8,6 +8,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import CreatePost from "./components/CreatePost";
 import { AuthProvider } from "./context/AuthContext";
 import PostDetailPage from "./pages/PostDetailPage";
+import About from "./pages/about/About";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <div className="App">
           <Routes>
             <Route index path="/" element={<HomePage />} />
+            <Route index path="/about" element={<About />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/create-post" element={<CreatePost />} />
