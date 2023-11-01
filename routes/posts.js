@@ -45,6 +45,9 @@ router.post(
   validateJWT,
   validateCommentData,
   async (req, res, next) => {
+    // Add this to see what data is received from the frontend
+    console.log("Received comment data:", req.body);
+
     try {
       const post = await Post.findById(req.params.postId);
       if (!post) throw new CustomError("Post not found", 404);
@@ -55,6 +58,8 @@ router.post(
         post: req.params.postId,
         repliedTo: req.body.repliedTo,
       });
+      console.log("New Comment:", newComment); // Log the new Comment
+
       await newComment.save();
 
       post.comments.push(newComment._id);
@@ -87,7 +92,7 @@ router.post("/:postId/likes", validateJWT, async (req, res, next) => {
         await existingLike.save();
       } else {
         // If the user wants to undo their previous action
-        await existingLike.remove();
+        await Like.findByIdAndDelete(existingLike._id);
         const index = post.likes.indexOf(existingLike._id);
         if (index > -1) {
           post.likes.splice(index, 1);
@@ -100,7 +105,7 @@ router.post("/:postId/likes", validateJWT, async (req, res, next) => {
         user: req.auth.id,
       });
       await like.save();
-      post.likes.push(like);
+      post.likes.push(like._id);
     }
     await post.save();
     res.json(post);
