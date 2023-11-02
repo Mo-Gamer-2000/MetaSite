@@ -12,6 +12,13 @@ const About = () => {
           <p className="text-black mt-4 text-center md:text-xl lg:text-base xl:text-xl">
             This is the about page.
           </p>
+          <div className="mx-auto block">
+            <img
+              className="mx-auto"
+              src="https://dummyimage.com/600x400/000/fff"
+              alt="Dummy"
+            />
+          </div>
         </div>
       </section>
     </MainLayout>
