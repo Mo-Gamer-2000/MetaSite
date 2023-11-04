@@ -98,6 +98,22 @@ const About = () => {
             className="mt-8 mx-auto"
           />
         </div>
+
+        {/* Interactive Elements (Add your creative features here) */}
+        {/* 1. Interactive Timeline */}
+        {/* 2. Team Section */}
+        {/* 3. User Testimonials */}
+        {/* 4. Interactive Infographics */}
+        {/* 5. Video Introduction */}
+        {/* 6. Virtual Tour */}
+        {/* 7. Gamification */}
+        {/* 8. Interactive Maps */}
+        {/* 9. Case Studies */}
+        {/* 10. Progress Bars */}
+        {/* 11. Virtual Reality (VR) Experience */}
+        {/* 12. Interactive FAQs */}
+        {/* 13. Artistic Visuals */}
+        {/* 14. Engaging Polls */}
       </section>
     </MainLayout>
   );
