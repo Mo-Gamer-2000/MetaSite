@@ -29,7 +29,13 @@ const About = () => {
                 of integrity, creativity, and the relentless pursuit of a better
                 future for all.
               </p>
-              <img src={images.Values} alt="Values" className="mt-8 mx-auto" />
+              <img
+                src={images.Values}
+                alt="Values"
+                className="mt-8 mx-auto"
+                width={650}
+                height={450}
+              />
             </div>
             {/* Suggested Interactive Element: User Testimonials */}
             {/* Share testimonials from team members or clients who have experienced your values firsthand. */}
@@ -49,6 +55,8 @@ const About = () => {
                 src={images.Support}
                 alt="Support"
                 className="mt-8 mx-auto"
+                width={650}
+                height={450}
               />
             </div>
             {/* Suggested Interactive Element: Interactive FAQs */}
@@ -70,6 +78,8 @@ const About = () => {
                 src={images.Diversity}
                 alt="Diversity"
                 className="mt-8 mx-auto"
+                width={650}
+                height={450}
               />
             </div>
             {/* Suggested Interactive Element: Team Section */}
@@ -86,7 +96,13 @@ const About = () => {
             communication. Metasite is more than a platform; it's a community of
             innovators. Be a part of the change and witness the possibilities.
           </p>
-          <img src={images.JoinUs} alt="Join Us" className="mt-8 mx-auto" />
+          <img
+            src={images.JoinUs}
+            alt="Join Us"
+            className="mt-8 mx-auto"
+            width={650}
+            height={450}
+          />
         </div>
         {/* Suggested Interactive Element: Video Introduction */}
         {/* Provide a video introduction that welcomes users to join your community and experience the future of communication. */}
@@ -104,6 +120,8 @@ const About = () => {
             src={images.ContactUs}
             alt="Contact Us"
             className="mt-8 mx-auto"
+            width={650}
+            height={450}
           />
         </div>
         {/* Suggested Interactive Element: Engaging Polls */}
