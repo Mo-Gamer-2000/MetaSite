@@ -9,6 +9,7 @@ import CreatePost from "./components/CreatePost";
 import { AuthProvider } from "./context/AuthContext";
 import PostDetailPage from "./pages/PostDetailPage";
 import About from "./pages/about/About";
+import Service from "./pages/service/Service";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route index path="/" element={<HomePage />} />
             <Route index path="/about" element={<About />} />
+            <Route index path="/service" element={<Service />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/create-post" element={<CreatePost />} />
