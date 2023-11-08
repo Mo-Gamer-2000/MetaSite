@@ -106,26 +106,6 @@ const About = () => {
         </div>
         {/* Suggested Interactive Element: Video Introduction */}
         {/* Provide a video introduction that welcomes users to join your community and experience the future of communication. */}
-
-        <div className="my-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary">
-            Contact Us
-          </h2>
-          <p className="text-lg md:text-xl text-gray-600 mt-4">
-            If you have any questions, ideas, or inquiries, please don't
-            hesitate to contact us. We're here to help you on your journey to
-            innovation and communication excellence.
-          </p>
-          <img
-            src={images.ContactUs}
-            alt="Contact Us"
-            className="mt-8 mx-auto"
-            width={650}
-            height={450}
-          />
-        </div>
-        {/* Suggested Interactive Element: Engaging Polls */}
-        {/* Run engaging polls to gather user opinions on relevant topics or collect feedback. */}
       </section>
     </MainLayout>
   );

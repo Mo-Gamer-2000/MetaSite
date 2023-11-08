@@ -1,6 +1,6 @@
 import React from "react";
 import MainLayout from "../../components/MainLayout";
-import { FiMail } from "react-icons/fi"; // Import the email icon from a suitable icon library
+import images from "../../constants/images";
 
 const Contact = () => {
   return (
@@ -28,15 +28,23 @@ const Contact = () => {
                 details.
               </p>
               <div className="mt-4">
-                <p className="text-primary text-lg font-semibold">Email:</p>
-                <p className="text-black text-lg">contact@metasite.com</p>
+                <p className="text-primary text-lg font-semibold">E-Mail:</p>
+                <p className="text-black text-lg">MetaSite@gmail.co.uk</p>
               </div>
               <div className="mt-4">
-                <p className="text-primary text-lg font-semibold">Phone:</p>
-                <p className="text-black text-lg">+1 (123) 456-7890</p>
+                <p className="text-primary text-lg font-semibold">
+                  Contact Number:
+                </p>
+                <p className="text-black text-lg">+44 07 444 888 555</p>
               </div>
               <div className="mt-8 text-center">
-                <FiMail className="w-12 h-12 text-primary mx-auto" />
+                <img
+                  src={images.ContactUs}
+                  alt="Contact"
+                  className="w-full max-w-lg mx-auto"
+                  width={650}
+                  height={450}
+                />
               </div>
             </div>
             <div className="bg-white shadow-lg rounded-lg p-6">
@@ -53,7 +61,7 @@ const Contact = () => {
                     className="block text-primary text-lg font-semibold mb-2"
                     htmlFor="name"
                   >
-                    Your Name
+                    Full Name:
                   </label>
                   <input
                     type="text"
@@ -68,7 +76,7 @@ const Contact = () => {
                     className="block text-primary text-lg font-semibold mb-2"
                     htmlFor="email"
                   >
-                    Your Email
+                    E-Mail:
                   </label>
                   <input
                     type="email"
@@ -83,7 +91,7 @@ const Contact = () => {
                     className="block text-primary text-lg font-semibold mb-2"
                     htmlFor="message"
                   >
-                    Your Message
+                    Message:
                   </label>
                   <textarea
                     id="message"

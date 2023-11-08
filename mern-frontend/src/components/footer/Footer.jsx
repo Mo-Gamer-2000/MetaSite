@@ -14,24 +14,25 @@ const Footer = () => {
           rights reserved.
         </h1>
         <div>
+          <label htmlFor="email" className="sr-only">
+            Enter your email
+          </label>
           <input
             type="text"
-            placeholder="Enter your email"
+            id="email"
+            placeholder="Enter your E-Mail"
             className="text-black sm:w-72 w-full sm:mr-5 mr-1 lg:mb-0 mb-4 py-2.5 rounded px-2 focus:outline-none"
           />
-          <button className=" bg-black hover:bg-gray-900 duration-300 px-5 py-2.5 rounded-md text-white md:w-auto w-full">
-            Register
+          <button
+            className="bg-black hover:bg-gray-900 duration-300 px-5 py-2.5 rounded-md text-white md:w-auto w-full"
+            aria-label="Register for Updates"
+          >
+            Subscribe
           </button>
-          <p className="text-black text-1xl pt-1 font-semibold">
-            Register for weekly updates⬆️
-          </p>
         </div>
       </div>
       <ItemContainer />
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10
-      text-center pt-2 text-gray-400 text-sm pb-8"
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center pt-2 text-gray-400 text-sm pb-8">
         <SocialIcons Icons={Icons} />
       </div>
     </footer>
