@@ -33,12 +33,15 @@ const Navbar = () => {
   return (
     <div className="w-full fixed top-0 left-0 shadow-md z-40">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
-        <div className="font-bold text-2xl cursor-pointer flex items-center text-black">
+        <Link
+          to="/"
+          className="font-bold text-2xl cursor-pointer flex items-center text-black"
+        >
           <span className="text-3xl text-indigo-600 mr-1 pt-2">
             <ion-icon name="globe-outline"></ion-icon>
           </span>
           MetaSite
-        </div>
+        </Link>
         <div
           onClick={() => setOpen(!open)}
           className="text-3xl absolute right-8 top-6 cursor-pointer md:hidden"

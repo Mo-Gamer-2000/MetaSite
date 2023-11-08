@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/AuthContext";
 import PostDetailPage from "./pages/PostDetailPage";
 import About from "./pages/about/About";
 import Service from "./pages/service/Service";
+import Contact from "./pages/contact/Contact";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route index path="/" element={<HomePage />} />
             <Route index path="/about" element={<About />} />
             <Route index path="/service" element={<Service />} />
+            <Route index path="/contact" element={<Contact />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/create-post" element={<CreatePost />} />

@@ -41,7 +41,7 @@ const Main = () => {
             placeholder="Explore Artificial Intelligence, Machine Learning, and more..."
           />
           <button
-            className="w-full mt-2 bg-primary text-black font-semibold 
+            className="w-full bg-indigo-600 bg-primary text-white hover:bg-indigo-400 font-semibold 
           rounded-lg px-5 py-3 md:w-auto md:absolute md:right-2 md:top-1/2 
           md:-translate-y-1/2 md:py-2"
           >
