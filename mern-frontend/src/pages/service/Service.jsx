@@ -22,8 +22,6 @@ const icons = [
   faHeadset, // 24/7 Customer Support
 ];
 
-// ...rest of your code
-
 const serviceCategories = [
   {
     title: "Virtual Reality (VR)",
