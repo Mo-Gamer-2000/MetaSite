@@ -49,7 +49,7 @@ const Navbar = () => {
           <ion-icon name={open ? "close" : "menu"}></ion-icon>
         </div>
         <ul
-          className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
+          className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-100 ease-in ${
             open ? "top-20 opacity-100" : "top-[-490px]"
           } md:opacity-100 opacity-0`}
         >
@@ -57,7 +57,7 @@ const Navbar = () => {
             <li key={link.name} className="md:ml-8 text-xl md:my-0 my-7">
               <a
                 href={link.link}
-                className="text-black hover:text-indigo-600 duration-500"
+                className="text-black hover:text-indigo-600 duration-100"
               >
                 {link.name}
               </a>
@@ -78,13 +78,13 @@ const Navbar = () => {
                 >
                   <Link
                     to="/dashboard"
-                    className="block w-full mb-2 text-center px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-300"
+                    className="block w-full mb-2 text-center px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 transition duration-100"
                   >
                     Go to Dashboard
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="block w-full text-center px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
+                    className="block w-full text-center px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-100"
                   >
                     Logout
                   </button>
