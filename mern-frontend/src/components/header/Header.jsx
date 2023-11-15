@@ -31,7 +31,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="w-full fixed top-0 left-0 shadow-md z-40">
+    <div className="w-full fixed top-0 left-0 shadow-md z-40 ">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
         <Link
           to="/"
@@ -57,7 +57,7 @@ const Navbar = () => {
             <li key={link.name} className="md:ml-8 text-xl md:my-0 my-7">
               <a
                 href={link.link}
-                className="text-black hover:text-indigo-600 duration-100"
+                className="text-black hover:text-indigo-600 duration-100 font-semibold"
               >
                 {link.name}
               </a>

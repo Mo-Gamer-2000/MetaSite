@@ -89,7 +89,7 @@ const LoginPage = () => {
 
         <button
           type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:bg-blue-700"
+          className="w-full p-2 bg-indigo-600 hover:bg-white text-white hover:text-indigo-600 hover:outline rounded duration-100 font-semibold"
         >
           Login
         </button>
@@ -97,7 +97,7 @@ const LoginPage = () => {
         {/* Registration link */}
         <div className="mt-4 text-center">
           Don't have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
+          <Link to="/register" className="text-indigo-600 hover:underline">
             Register here
           </Link>
         </div>
