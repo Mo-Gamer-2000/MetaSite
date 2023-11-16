@@ -25,7 +25,7 @@ const Dashboard = () => {
           </p>
           <p className="flex justify-between">
             <span className="font-medium">Email:</span>
-            <span>{user.email}</span>
+            <span>{user.username}</span>
           </p>
           {/* Add more user details as needed */}
         </div>
@@ -35,14 +35,10 @@ const Dashboard = () => {
       <div className="flex justify-start mb-8 space-x-4 overflow-x-auto">
         <Link
           to="/create-post"
-          className="px-6 py-2 text-sm sm:text-base bg-blue-500 text-white rounded-full focus:outline-none focus:bg-blue-600"
+          className="px-6 py-2 text-sm sm:text-base bg-indigo-500 hover:bg-indigo-600 text-white rounded-full focus:outline-none focus:bg-indigo-600"
         >
           Create Post
         </Link>
-        <button className="px-6 py-2 text-sm sm:text-base bg-blue-500 text-white rounded-full focus:outline-none focus:bg-blue-600">
-          Section 2
-        </button>
-        {/* Add more sections as needed */}
       </div>
 
       {/* Content area depending on the selected tab. */}
@@ -57,7 +53,7 @@ const Dashboard = () => {
       <div className="mt-8 text-center">
         <Link
           to="/"
-          className="inline-block px-6 py-2 text-sm sm:text-base bg-red-500 text-white rounded-full focus:outline-none focus:bg-red-600"
+          className="inline-block px-6 py-2 text-sm sm:text-base bg-red-500 hover:bg-red-600 text-white rounded-full focus:outline-none focus:bg-red-600"
         >
           Back to Homepage
         </Link>

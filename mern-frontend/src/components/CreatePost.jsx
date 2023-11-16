@@ -94,11 +94,11 @@ function CreatePost() {
     <div className="bg-white shadow rounded-lg p-6">
       <Link
         to="/dashboard"
-        className="absolute top-4 left-4 text-blue-600 hover:text-blue-700"
+        className="absolute top-4 left-4 text-indigo-600 hover:text-indigo-700"
       >
         <ion-icon name="arrow-back-outline" class="text-2xl"></ion-icon>
       </Link>
-      <h2 className="text-2xl text-blue-600 mb-4 pt-6">Create a New Post</h2>
+      <h2 className="text-2xl text-indigo-600 mb-4 pt-6">Create a New Post</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-black font-medium mb-2">Title:</label>
@@ -106,7 +106,7 @@ function CreatePost() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-blue-500 focus:ring"
+            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-indigo-500 focus:ring"
           />
         </div>
         <div className="mb-4">
@@ -115,7 +115,7 @@ function CreatePost() {
             type="text"
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-blue-500 focus:ring"
+            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-indigo-500 focus:ring"
           />
         </div>
         <div className="mb-4">
@@ -126,7 +126,7 @@ function CreatePost() {
             type="text"
             value={image}
             onChange={(e) => setImage(e.target.value)}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-blue-500 focus:ring"
+            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-indigo-500 focus:ring"
           />
         </div>
         <div className="mb-4">
@@ -134,13 +134,13 @@ function CreatePost() {
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-blue-500 focus:ring"
+            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-indigo-500 focus:ring"
             rows="5"
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+          className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-indigo active:bg-indigo-800"
         >
           Submit
         </button>
