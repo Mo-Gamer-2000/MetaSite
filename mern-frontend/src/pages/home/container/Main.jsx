@@ -64,14 +64,13 @@ const Main = () => {
         </div>
       </div>
 
-      {/* Enhanced Blog Posts Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
         {posts.map((post, idx) => (
           <Link to={`/post/${post._id}`} key={idx}>
             <div className="bg-white shadow-lg rounded p-4">
               <img
                 className="w-full h-48 object-cover rounded-t"
-                src={post.image} // Make sure the post object has an 'image' property
+                src={post.image}
                 alt={post.title}
               />
               <h2 className="mt-4 text-xl font-semibold text-black">

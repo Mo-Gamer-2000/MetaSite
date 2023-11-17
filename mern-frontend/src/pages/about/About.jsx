@@ -37,8 +37,6 @@ const About = () => {
                 height={450}
               />
             </div>
-            {/* Suggested Interactive Element: User Testimonials */}
-            {/* Share testimonials from team members or clients who have experienced your values firsthand. */}
           </section>
 
           <section className="py-10 border-t border-b border-gray-200">
@@ -59,8 +57,6 @@ const About = () => {
                 height={450}
               />
             </div>
-            {/* Suggested Interactive Element: Interactive FAQs */}
-            {/* Add an interactive FAQs section to address common user queries and provide instant assistance. */}
           </section>
 
           <section className="py-10 border-t border-b border-gray-200">
@@ -82,8 +78,6 @@ const About = () => {
                 height={450}
               />
             </div>
-            {/* Suggested Interactive Element: Team Section */}
-            {/* Introduce your diverse team and their roles, highlighting the strength of your inclusive workforce. */}
           </section>
         </div>
 
@@ -104,8 +98,6 @@ const About = () => {
             height={450}
           />
         </div>
-        {/* Suggested Interactive Element: Video Introduction */}
-        {/* Provide a video introduction that welcomes users to join your community and experience the future of communication. */}
       </section>
     </MainLayout>
   );

@@ -1,25 +1,26 @@
 import React from "react";
 import MainLayout from "../../components/MainLayout";
-
-import { faVrCardboard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeadset } from "@fortawesome/free-solid-svg-icons";
-import { faRobot } from "@fortawesome/free-solid-svg-icons";
-import { faMap } from "@fortawesome/free-solid-svg-icons";
-import { faUserFriends } from "@fortawesome/free-solid-svg-icons";
-import { faFlask } from "@fortawesome/free-solid-svg-icons";
-import { faCommentDots } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faVrCardboard,
+  faHeadset,
+  faRobot,
+  faMap,
+  faUserFriends,
+  faFlask,
+  faCommentDots,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 const icons = [
-  faVrCardboard, // Virtual Reality (VR)
-  faRobot, // Artificial Intelligence (AI)
-  faMap, // Interactive Maps
-  faUserFriends, // Augmented Communication
-  faFlask, // Innovation Labs
-  faCommentDots, // Communication Platform
-  faUser, // User-Centric Design
-  faHeadset, // 24/7 Customer Support
+  faVrCardboard,
+  faRobot,
+  faMap,
+  faUserFriends,
+  faFlask,
+  faCommentDots,
+  faUser,
+  faHeadset,
 ];
 
 const serviceCategories = [
@@ -79,7 +80,6 @@ const Service = () => {
           </p>
         </div>
 
-        {/* Service Categories */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
           {serviceCategories.map((category, index) => (
             <div key={index} className="bg-white shadow-lg rounded-lg p-6">
